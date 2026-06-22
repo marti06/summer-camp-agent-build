@@ -1,14 +1,9 @@
 # Slides — Build a team agent in Claude Code
 
-A self-contained [reveal.js](https://revealjs.com) deck you talk through. 22 slides:
-intro (you + Stacklist) → why agents exist → the fast evolution (loop → workflows →
-dynamic → platform) → what we'll build → the phased build → close.
-
-## Fill in the [bracketed] bits first
-
-A few slides have `[your ... ]` placeholders (your name/bio, the Stacklist pitch,
-your handle). Search `index.html` for `fill` / `[` and replace them. Everything
-else is ready.
+The talk-through deck, **implemented from the Claude Design design** (`claude-design/`)
+into a single self-contained file: `index.html`. 22 slides, black + orange brand,
+1920×1080. **No CDN, no runtime, no network** — it opens and presents in any browser,
+fully offline.
 
 ## Present it
 
@@ -17,26 +12,30 @@ open slides/index.html
 # or serve it:  cd slides && python3 -m http.server 8000  → http://localhost:8000
 ```
 
-- **→ / Space** next · **←** back · **Esc** overview · **F** fullscreen
-- **S** — speaker view: the talk-through notes (`Say:` / `Do:`) + timer + next-slide
-  preview. Keep it on your laptop; mirror the main window to the projector.
+Controls:
+- **→ / Space** next · **←** back · **Home / End** jump
+- **F** fullscreen
+- **S** (or **N**) toggle the **speaker notes** overlay for the current slide
+  (your `Say:` / `Do:` script, baked into each slide)
+
+The deck auto-scales to the window, and the slide number + an orange progress bar
+sit at the bottom. The current slide is in the URL hash, so you can deep-link or
+refresh without losing your place.
+
+## Fill in the [bracketed] bits first
+
+A few slides have `[your … ]` placeholders — your name/bio (slide 2), the Stacklist
+one-liner + a public-stack URL (slide 3), your handle (close). Search `index.html`
+for `[` and replace them.
 
 ## PDF backup (offline)
 
-Open `slides/index.html?print-pdf` in Chrome → Print → Save as PDF → Margins
-**None**, Background graphics **on**. Keep it on a USB stick in case the venue
-Wi-Fi dies.
-
-## Fully offline (no CDN)
-
-```bash
-cd slides && npm init -y && npm install reveal.js@5.1.0 highlight.js@11.9.0
-```
-Then repoint the three CDN `<link>`/`<script>` URLs at `node_modules/...`. (Or just
-rely on the PDF.)
+`index.html` has a print stylesheet that lays out one slide per page. In Chrome:
+Print → **Save as PDF** → **Landscape** → Scale **Fit to page** → Background
+graphics **on**. Keep it on a USB stick as your no-tech-needed fallback.
 
 ## Re-skin
 
-The theme is the `<style>` block at the top of `index.html` — change `--accent`,
-`--bg`, `--ink` to recolor the whole deck. Slides are plain `<section>`s; code
-slides use `<pre><code class="language-...">`.
+Brand colors are inline on each slide (`#FF6A00` accent, `#111` ink, `#FAFAFA` bg).
+To recolor globally, find/replace those hex values — or edit in the Claude Design
+project (see `claude-design/README.md`) and re-implement.
