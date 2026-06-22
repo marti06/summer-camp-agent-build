@@ -3,7 +3,7 @@
 A 2.5-hour, hands-on workshop. You **build** a real agent **inside Claude Code** —
 not a script on your laptop — and **ship it to your whole team by committing it**.
 By the end you type `/build-stack "<topic>"` and a panel of agents you wrote
-researches, vets, and publishes a curated [Stacklist](https://stacklist.app) stack.
+researches, vets, and publishes a curated [Stacklist](https://stacklist.com) stack.
 
 You don't read along — **you build it**. The point is the pattern you'll reuse forever:
 

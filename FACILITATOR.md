@@ -48,8 +48,8 @@ Multi-agent is composition. Deploy = `git commit`.
 
 ## 0:10–0:25 — Concept (deck [5–10])
 - What an agent is (the loop) · why · when not (head off "why not a calculator").
-- The evolution timeline + your thesis: build at the current rung. One Scout war
-  story — why a panel beats one model on a judgment call.
+- The evolution timeline + your thesis: build at the current rung. One war story
+  from your own multi-agent work (e.g. Stacky) — why a panel beats one model.
 
 ## 0:25–0:50 — Build the first subagent (Phase 1)
 - Deck [15], then everyone opens `phases/PHASE-1.md` and **writes**
