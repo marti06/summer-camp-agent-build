@@ -1,5 +1,5 @@
 # Run the SAME committed agent, headless, on a schedule.
-# This is the "deploy" payoff: the agent in .claude/ isn't tied to your laptop —
+# This is the "deploy" payoff: the agent in .claude/ isn't tied to your laptop, 
 # it runs unattended in CI from the exact files your team shares.
 #
 # TEMPLATE: verify the package name and flags against your Claude Code version,

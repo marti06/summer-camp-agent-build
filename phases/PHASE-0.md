@@ -1,4 +1,4 @@
-# Phase 0 — How this works + setup
+# Phase 0, How this works + setup
 
 **You're on the `start` branch: nothing is built yet. You build it.**
 
@@ -13,7 +13,7 @@ version of every phase is saved as a git tag, so you can never get stranded.
 
 ## How you'll build
 - Each phase has a guide in `phases/PHASE-N.md`: what to build + how.
-- Write the files yourself — or ask Claude Code to draft them and then refine.
+- Write the files yourself, or ask Claude Code to draft them and then refine.
   Either way, understand what you ship.
 - **Make it yours:** from Phase 2 on you pick your own angle (your panel lenses,
   your topic), so you leave with *your* agent, not a copy of mine.
@@ -29,7 +29,7 @@ You stay on `start`; only `.claude/` is replaced. `main` is the complete referen
 if you want to see the whole finished thing.
 
 ## The mental model
-- An **agent** = an LLM calling tools in a loop. Claude Code *is* that loop — you
+- An **agent** = an LLM calling tools in a loop. Claude Code *is* that loop, you
   configure it, you don't write it.
 - A **subagent** = a file in `.claude/agents/`. A **command** = a file in
   `.claude/commands/`. **Sharing** = commit `.claude/`.

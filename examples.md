@@ -14,5 +14,5 @@ specific, current, and have a clear audience.
 
 Tips:
 - Specific beats broad: "learning Rust coming from TypeScript" > "Rust".
-- Pick something the room cares about — let them shout it.
+- Pick something the room cares about, let them shout it.
 - A topic you know well makes it easy to sanity-check the agent's picks live.

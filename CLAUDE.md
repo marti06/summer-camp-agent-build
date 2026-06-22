@@ -1,4 +1,4 @@
-# Stack Builder — project context for Claude Code
+# Stack Builder, project context for Claude Code
 
 This repo is a workshop. By the end it contains a **reusable, team-shared agent**
 that turns a topic into a curated, published, AI-discoverable **Stacklist** stack.
@@ -23,7 +23,7 @@ Stacklist stack (or written locally if Stacklist isn't connected).
 
 ## House rules for agents
 
-- Prefer primary, reputable, recent sources. Quality over quantity — a tight set
+- Prefer primary, reputable, recent sources. Quality over quantity, a tight set
   of 8–12 great links beats 30 mediocre ones.
 - Every link must earn its place with a one-line reason.
 - Never fabricate a URL. If you are unsure a link is real, drop it or verify it
