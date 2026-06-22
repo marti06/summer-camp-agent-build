@@ -18,9 +18,18 @@ The point isn't the toy. The point is the pattern you'll use forever:
 ## Prerequisites (have these before we start)
 
 - **Claude Code** installed and working (`claude --version`). You already use it.
-- **An Anthropic API key / login** — provided at the summit.
 - **git** — you have it.
-- That's it. No Python, no framework.
+- **One key.** Copy the template and fill in your Anthropic key:
+  ```bash
+  cp .env.example .env          # add ANTHROPIC_API_KEY (provided at the summit)
+  set -a && source .env && set +a
+  claude                        # open Claude Code in this repo
+  ```
+  The agent's web search & fetch are **built into Claude Code — no extra key.**
+  Stacklist credentials are **optional** (only to publish for real; see
+  `phases/PHASE-4.md`). No Python, no framework.
+
+**Presenting?** The talk-through deck is in `slides/` (open `slides/index.html`).
 
 ---
 

@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Build a team agent in Claude Code</title>
+
+  <!-- reveal.js (CDN). For offline use see slides/README.md. -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/github-dark.min.css">
+
+  <style>
+    :root{
+      --bg:#FAF8F3; --ink:#1A1A1A; --muted:#6E6A63;
+      --accent:#C15F3C; --accent-soft:#EBDBD2; --rule:#E3DCD1; --code-bg:#1E1E2A;
+    }
+    .reveal{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:30px;color:var(--ink);}
+    .reveal .slides{text-align:left;}
+    .reveal h1,.reveal h2,.reveal h3{font-family:Charter,"Bitstream Charter","Iowan Old Style",Georgia,serif;color:var(--ink);font-weight:700;text-transform:none;letter-spacing:-0.01em;line-height:1.1;}
+    .reveal h1{font-size:2.0em;} .reveal h2{font-size:1.45em;} .reveal h3{font-size:1.0em;color:var(--accent);font-style:italic;}
+    .reveal .backgrounds{background:var(--bg);}
+    .reveal p,.reveal li{color:var(--ink);}
+    .reveal .muted{color:var(--muted);}
+    .reveal strong{color:var(--accent);}
+    .reveal ul,.reveal ol{margin-left:1em;} .reveal li{margin:0.32em 0;}
+    .reveal h1::after,.reveal h2.ruled::after{content:"";display:block;width:64px;height:5px;background:var(--accent);margin-top:0.35em;border-radius:3px;}
+    .kicker{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:0.55em;letter-spacing:0.18em;text-transform:uppercase;color:var(--accent);margin-bottom:0.6em;}
+    .reveal pre{width:100%;box-shadow:0 8px 30px rgba(0,0,0,0.16);border-radius:12px;font-size:0.62em;margin:0.6em 0;}
+    .reveal pre code{background:var(--code-bg);border-radius:12px;padding:1.0em 1.2em;line-height:1.45;}
+    .reveal code{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;}
+    .reveal :not(pre)>code{background:var(--accent-soft);color:#7A3A24;padding:0.08em 0.35em;border-radius:5px;font-size:0.9em;}
+    section.divider{color:var(--bg);}
+    .flow{display:flex;align-items:center;justify-content:center;gap:0.55em;flex-wrap:wrap;margin:0.5em 0;}
+    .node{border:2px solid var(--accent);border-radius:12px;padding:0.45em 0.8em;background:#fff;font-weight:600;font-size:0.78em;}
+    .node.judge{background:var(--accent);color:#fff;}
+    .node.stack{display:flex;flex-direction:column;gap:0.35em;}
+    .arrow{color:var(--accent);font-size:1.3em;font-weight:700;}
+    .checkpoint{background:var(--accent-soft);border-left:6px solid var(--accent);border-radius:8px;padding:0.6em 0.9em;margin:0.5em 0;}
+    blockquote.big{border:none;background:none;box-shadow:none;font-family:Charter,Georgia,serif;font-style:italic;font-size:1.25em;color:var(--ink);width:100%;}
+    .reveal .slide-number{background:transparent;color:var(--muted);}
+    .pill{font-family:ui-monospace,monospace;font-size:0.62em;color:var(--muted);}
+    /* evolution timeline */
+    .timeline{display:flex;flex-direction:column;gap:0.5em;margin-top:0.4em;}
+    .step{display:grid;grid-template-columns:120px 1fr;gap:0.9em;align-items:baseline;padding:0.4em 0;border-top:1px solid var(--rule);}
+    .step .yr{font-family:ui-monospace,monospace;font-size:0.7em;color:var(--accent);font-weight:700;}
+    .step .what{font-size:0.86em;}
+    .step .what b{font-family:Charter,Georgia,serif;}
+    .step.now .yr{color:#fff;background:var(--accent);border-radius:6px;padding:0.1em 0.4em;}
+    .fill{color:var(--muted);font-style:italic;}
+    .small{font-size:0.8em;}
+  </style>
+</head>
+<body>
+<div class="reveal"><div class="slides">
+
+  <!-- ───────── PART 0 — INTRO ───────── -->
+
+  <!-- 1 Title -->
+  <section data-background-color="#FAF8F3">
+    <p class="kicker">web summit · hands-on workshop · 2.5h</p>
+    <h1>Build a team agent<br>in Claude Code</h1>
+    <h3>research → a panel of agents → a published, discoverable stack</h3>
+    <p class="muted" style="margin-top:1em;">[Your name] · Stacklist</p>
+    <aside class="notes">Warm open. "In the next 2.5 hours you'll build a real agent — and ship it to your whole team by committing it. Not a toy. Something you'll actually keep."</aside>
+  </section>
+
+  <!-- 2 Who I am -->
+  <section data-background-color="#FAF8F3">
+    <h2 class="ruled">Who I am</h2>
+    <ul>
+      <li><span class="fill">[Your name] — what you do, in one line]</span></li>
+      <li>I build & run <strong>Stacklist</strong></li>
+      <li><span class="fill">[why agents matter to you — e.g. we run multi-agent systems in production: "Scout"]</span></li>
+      <li><span class="fill">[why you're the person to teach this today]</span></li>
+    </ul>
+    <aside class="notes">Keep it 60–90s. Establish credibility: you ship real agents (Scout = a judge + panel) inside a real product. That's the authority behind everything that follows.</aside>
+  </section>
+
+  <!-- 3 What is Stacklist -->
+  <section data-background-color="#FAF8F3">
+    <h2 class="ruled">What's Stacklist</h2>
+    <ul>
+      <li>Curated collections of links — <strong>stacks</strong> of <strong>cards</strong>.</li>
+      <li>Built to be <strong>discoverable by AI search</strong> (AEO/GEO), not just Google.</li>
+      <li><span class="fill">[your one-line pitch + a live URL to a great public stack]</span></li>
+    </ul>
+    <p class="muted small">Later, our agent will publish straight into Stacklist — your product as the agent's tools.</p>
+    <aside class="notes">~45s. Don't over-sell — just enough that the publish step lands later. Optionally show one beautiful public stack.</aside>
+  </section>
+
+  <!-- 4 The promise -->
+  <section data-background-color="#FAF8F3">
+    <h2 class="ruled">What you'll leave with</h2>
+    <ul>
+      <li>A working agent: <code>/build-stack "&lt;topic&gt;"</code></li>
+      <li>Living in a repo, <strong>shared with your team by a git commit</strong></li>
+      <li>And the pattern to build your own — for anything</li>
+    </ul>
+    <aside class="notes">DO (45s): run /build-stack live, wired to Stacklist, on a topic. Let them see the finished thing. "This is yours by the end."</aside>
+  </section>
+
+  <!-- ───────── PART 1 — WHY AGENTS ───────── -->
+
+  <!-- 5 What even is an agent -->
+  <section data-background-color="#FAF8F3">
+    <p class="kicker">first principles</p>
+    <h2>What even is an agent?</h2>
+    <blockquote class="big">An LLM <strong>calling tools in a loop</strong> until the task is done.</blockquote>
+    <pre><code data-trim data-noescape class="language-text">ask the model (with tools) → wants a tool? run it, feed it back → repeat → done</code></pre>
+    <p class="muted small">That's the whole concept. Everything else is how much of that loop you write yourself.</p>
+    <aside class="notes">Demystify up front. The entire field is variations on this one sentence. Hold this — we'll trace how much of it we used to write vs write today.</aside>
+  </section>
+
+  <!-- 6 Why they exist -->
+  <section data-background-color="#FAF8F3">
+    <h2 class="ruled">Why agents exist — what they buy you</h2>
+    <ul>
+      <li>The task is <strong>open-ended</strong> — no fixed script you could hardcode.</li>
+      <li>The model can <strong>use tools & react</strong> — search, read, write, call APIs.</li>
+      <li>You can <strong>verify</strong> the result — so iteration is safe.</li>
+      <li>They do <strong>real work while you don't watch</strong> — that's the leverage.</li>
+    </ul>
+    <aside class="notes">Agents trade latency + cost for flexibility. The win is open-ended work with a feedback loop. "Curate the best links on X" is exactly this.</aside>
+  </section>
+
+  <!-- 7 When NOT to -->
+  <section data-background-color="#FAF8F3">
+    <h2 class="ruled">…and when NOT to</h2>
+    <ul>
+      <li>If a single prompt does it — use a single prompt.</li>
+      <li>If the steps are fixed — use a workflow, not an agent.</li>
+      <li>Reach for an agent only when the task is open-ended enough to earn it.</li>
+    </ul>
+    <p class="muted small">(This is also why an agent that does arithmetic is silly. A calculator is a function call, not an agent.)</p>
+    <aside class="notes">Pre-empt the "why not just call a function" reaction. Start simple; add agentic complexity only when warranted. Sets up the evolution story next.</aside>
+  </section>
+
+  <!-- ───────── PART 2 — THE EVOLUTION ───────── -->
+
+  <!-- 8 Divider -->
+  <section class="divider" data-background-color="#1A1A1A">
+    <p class="kicker" style="color:#E8A98F;">how we got here — fast</p>
+    <h1 style="color:#FAF8F3;">Two years,<br>four leaps</h1>
+    <aside class="notes">The point of this section: the abstraction has climbed astonishingly fast, and the job is to climb with it.</aside>
+  </section>
+
+  <!-- 9 Timeline -->
+  <section data-background-color="#FAF8F3">
+    <h2 class="ruled">From a loop to a platform</h2>
+    <div class="timeline">
+      <div class="step"><span class="yr">~2023</span><span class="what"><b>One LLM call.</b> Prompt in, text out. No tools, no memory.</span></div>
+      <div class="step"><span class="yr">then</span><span class="what"><b>The hand-rolled loop.</b> Give it tools, write the while-loop yourself. The first "agent." Powerful — and fiddly.</span></div>
+      <div class="step"><span class="yr">then</span><span class="what"><b>Workflows.</b> Orchestrate calls on fixed paths — chain, route, parallelize. Predictable. The raw loop stopped being something you wrote by hand.</span></div>
+      <div class="step"><span class="yr">then</span><span class="what"><b>Dynamic / agentic.</b> The model drives its own path & tools. Workflows that decide their own steps.</span></div>
+      <div class="step now"><span class="yr">now</span><span class="what"><b>The platform.</b> Claude Code, subagents, MCP, the Agent SDK. The loop, the workflows, the orchestration — given to you. You compose; you don't re-implement.</span></div>
+    </div>
+    <aside class="notes">Walk it top to bottom. Land each: we used to WRITE the loop; then we wrote WORKFLOWS around it; then the model drove; now the platform hands us all of it. Tie to your own history if you lived it.</aside>
+  </section>
+
+  <!-- 10 The meta-point -->
+  <section data-background-color="#FAF8F3">
+    <h2 class="ruled">The actual skill: evolve alongside it</h2>
+    <ul>
+      <li>Each leap <strong>retired hand-written plumbing</strong> from the leap before.</li>
+      <li>The winners stop re-implementing what the platform now gives them…</li>
+      <li>…and spend that attention on <strong>tools, composition, and shipping</strong>.</li>
+    </ul>
+    <blockquote class="big" style="font-size:1.1em;">Today we ride the abstraction all the way up — and build at the top of it.</blockquote>
+    <aside class="notes">This is your thesis. The danger isn't the tech moving — it's building one rung below where the platform already is. Today we build at the current rung: Claude Code-native.</aside>
+  </section>
+
+  <!-- ───────── PART 3 — WHAT WE'LL BUILD ───────── -->
+
+  <!-- 11 Divider -->
+  <section class="divider" data-background-color="#1A1A1A">
+    <p class="kicker" style="color:#E8A98F;">today</p>
+    <h1 style="color:#FAF8F3;">Build it.<br>Then ship it.</h1>
+    <p style="color:#C9C2B6;">A reusable agent in Claude Code — committed to a repo, run by your whole team.</p>
+  </section>
+
+  <!-- 12 Three ideas to hold -->
+  <section data-background-color="#FAF8F3">
+    <h2 class="ruled">Three ideas we'll prove with code</h2>
+    <ul>
+      <li>An <strong>agent</strong> is committable config — a markdown file, not a script.</li>
+      <li>An <strong>orchestration</strong> is composition — agents fanning out + a judge.</li>
+      <li><strong>Deploy = <code>git commit</code></strong> — and your product's MCP can be the agent's tools.</li>
+    </ul>
+    <aside class="notes">These three are the takeaways. Everything in the build serves one of them.</aside>
+  </section>
+
+  <!-- 13 Agenda / phases -->
+  <section data-background-color="#FAF8F3">
+    <h2 class="ruled">What we'll cover — in phases</h2>
+    <div class="small">
+      <div class="step"><span class="yr">P1</span><span class="what">Your first subagent — a researcher</span></div>
+      <div class="step"><span class="yr">P2</span><span class="what">A review panel — three perspectives</span></div>
+      <div class="step"><span class="yr">P3</span><span class="what">The orchestrator + judge — <code>/build-stack</code></span></div>
+      <div class="step"><span class="yr">P4</span><span class="what">Publish to Stacklist + discoverability check</span></div>
+      <div class="step now"><span class="yr">P5</span><span class="what">Deploy &amp; share — commit, teammate pulls, CI</span></div>
+    </div>
+    <p class="muted small">Every phase is a <code>git</code> tag. Fall behind → <code>git checkout phase-2</code> → you're caught up.</p>
+    <aside class="notes">Reassure: nobody gets stranded. The tags are the safety net. main is the finished repo.</aside>
+  </section>
+
+  <!-- 14 Keys & setup -->
+  <section data-background-color="#FAF8F3">
+    <h2 class="ruled">Setup — one key</h2>
+    <ul>
+      <li><strong>Claude Code</strong> installed · <strong>git</strong> · the repo cloned</li>
+      <li><strong>ANTHROPIC_API_KEY</strong> — provided here. Web search &amp; fetch are built in; <em>no extra key.</em></li>
+      <li>Stacklist credential — <em>optional</em>, only to publish for real (else it writes a local file)</li>
+    </ul>
+    <pre><code data-trim data-noescape class="language-bash">cp .env.example .env      # fill in ANTHROPIC_API_KEY
+set -a && source .env && set +a
+claude                    # open Claude Code in the repo</code></pre>
+    <aside class="notes">This is the slide you pause on while everyone gets their key in. The .env.example in the repo spells it out. No Python, no framework.</aside>
+  </section>
+
+  <!-- ───────── PART 4 — THE BUILD ───────── -->
+
+  <!-- 15 Phase 1 -->
+  <section data-background-color="#FAF8F3">
+    <p class="kicker">phase 1</p>
+    <h2>An agent is a file</h2>
+    <pre><code data-trim data-noescape class="language-yaml">---
+name: link-researcher
+description: Finds strong candidate links for a topic. Use this first.
+tools: WebSearch, WebFetch     # blast radius: search & fetch, nothing else
+model: sonnet
+---
+You are a research specialist. Given a TOPIC, find the strongest...</code></pre>
+    <p class="muted small"><code>description</code> = how the lead delegates. <code>tools</code> = what it's allowed to touch.</p>
+    <aside class="notes">Open .claude/agents/link-researcher.md live. Run it. Show the isolated context — the main chat stays clean. CHECKPOINT: everyone gets a candidate list.</aside>
+  </section>
+
+  <!-- 16 Phase 2 -->
+  <section data-background-color="#FAF8F3">
+    <p class="kicker">phase 2</p>
+    <h2>A panel beats one opinion</h2>
+    <ul>
+      <li>Three reviewers: <strong>credibility · freshness · fit</strong></li>
+      <li>Each owns ONE lens · same cheap model · run in parallel</li>
+      <li>Independent contexts → real disagreement to resolve</li>
+    </ul>
+    <aside class="notes">Why three agents not one prompt: one prompt blends the lenses in one context + one bias. Three isolated agents commit to positions. That independence is the value.</aside>
+  </section>
+
+  <!-- 17 Phase 3 -->
+  <section data-background-color="#FAF8F3">
+    <p class="kicker">phase 3 · the Scout move</p>
+    <h2>Orchestrate, then judge</h2>
+    <div class="flow">
+      <span class="node">topic</span><span class="arrow">→</span>
+      <span class="node">researcher</span><span class="arrow">→</span>
+      <span class="node stack"><span>credibility</span><span>freshness</span><span>fit</span></span>
+      <span class="arrow">→</span><span class="node judge">judge</span>
+      <span class="arrow">→</span><span class="node">stack</span>
+    </div>
+    <p class="muted small"><code>/build-stack</code> fans out in parallel; the lead agent is the judge.</p>
+    <aside class="notes">THE checkpoint that matters. Crowd-source a topic, run /build-stack. One line in → a reasoned, ranked stack out. You never hard-coded which links win. This is Scout, simplified.</aside>
+  </section>
+
+  <!-- 18 Phase 4 -->
+  <section data-background-color="#FAF8F3">
+    <p class="kicker">phase 4 · the product moment</p>
+    <h2>Your product = the agent's tools</h2>
+    <ul>
+      <li>Default: writes <code>output/&lt;slug&gt;.md</code> — works with no account</li>
+      <li>Connect the <strong>Stacklist MCP</strong> + allow its tools → it publishes for real</li>
+      <li>+ an <strong>AI-discoverability</strong> check on the way out</li>
+    </ul>
+    <p class="muted small">The agent didn't change — you widened its allowlist to include your product.</p>
+    <aside class="notes">Run the connected version on your account → a live, discoverable stack appears. The big idea: an MCP server turns any product into agent tooling.</aside>
+  </section>
+
+  <!-- 19 Phase 5 -->
+  <section data-background-color="#FAF8F3">
+    <p class="kicker">phase 5 · the payoff</p>
+    <h2>Deploy = git commit</h2>
+    <pre><code data-trim data-noescape class="language-bash">git add .claude CLAUDE.md && git commit -m "Add /build-stack" && git push
+# teammate:
+git pull && claude
+> /build-stack "self-hosting your analytics"     # zero setup</code></pre>
+    <p class="muted small">Same agent, headless in CI (<code>claude -p</code>) on a schedule. Wrote it once.</p>
+    <aside class="notes">The repo IS the distribution mechanism. Update an agent, commit, the team gets it on next pull. Show weekly-stack.yml. This is why we built in Claude Code, not a script.</aside>
+  </section>
+
+  <!-- ───────── PART 5 — CLOSE ───────── -->
+
+  <!-- 20 What bites -->
+  <section data-background-color="#FAF8F3">
+    <h2 class="ruled">What bites in production</h2>
+    <ul>
+      <li><strong>Tool sprawl</strong> — if a human can't pick the tool, neither can the model</li>
+      <li><strong>Context rot</strong> — histories fill, recall degrades</li>
+      <li><strong>Vague <code>description</code>s</strong> — that's the delegation prompt</li>
+      <li><strong>Cost</strong> — orchestration multiplies tokens; tier your models</li>
+    </ul>
+    <aside class="notes">Map each back to something they saw: the tools allowlist, the Haiku panel vs the judge, the description field. Concrete beats abstract.</aside>
+  </section>
+
+  <!-- 21 Evolve -->
+  <section data-background-color="#FAF8F3">
+    <h2 class="ruled">Keep climbing</h2>
+    <ul>
+      <li>Give panelists real tools · loop-to-consensus · a code-review panel on your repo</li>
+      <li>Embed it: the <strong>Agent SDK</strong> · agent teams for debate</li>
+      <li>The platform will move again — build at the top rung, every time</li>
+    </ul>
+    <aside class="notes">Return to the thesis. They came in able to USE agents; they leave able to BUILD and SHIP them — at the current rung.</aside>
+  </section>
+
+  <!-- 22 Close -->
+  <section class="divider" data-background-color="#1A1A1A">
+    <h1 style="color:#FAF8F3;">Thank you</h1>
+    <p style="color:#C9C2B6;">The repo is yours — <code>README.md</code> + <code>phases/</code> + the links.</p>
+    <p class="muted small" style="color:#9A9486;">[your handle] · stacklist.app · questions?</p>
+    <aside class="notes">Take the room's questions. Point them at the phase docs to redo it at home, and at the Anthropic links in the README.</aside>
+  </section>
+
+</div></div>
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/highlight.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.js"></script>
+<script>
+  Reveal.initialize({
+    hash:true, slideNumber:'c/t', transition:'fade', transitionSpeed:'fast',
+    width:1280, height:720, margin:0.08,
+    plugins:[RevealHighlight, RevealNotes],
+  });
+</script>
+</body>
+</html>
