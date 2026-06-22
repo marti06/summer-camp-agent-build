@@ -33,22 +33,8 @@ Run this orchestration. You are the lead agent and, at the end, the judge.
      on any contested picks.
    Ask the user for a quick OK or edits before saving.
 
-5. **Save.** On approval, write the stack to `output/<slug>.md` (slug = the topic
-   lowercased, hyphenated). Use this shape:
-
-   ```
-   # <name>
-
-   <summary>
-
-   Tags: tag1, tag2, tag3
-
-   ## Links
-   - [Title](url) — reason
-   ...
-   ```
-
-   Confirm the path you wrote.
-
-(Phase 4 will replace step 5 with publishing to Stacklist + an AI-discoverability
-check, falling back to this local file when Stacklist isn't connected.)
+5. **Publish.** On approval, launch the `stack-publisher` subagent with the approved
+   name, summary, tags, and ranked links. It publishes to Stacklist (via the
+   Stacklist MCP) when connected — and reports the stack URL and the
+   AI-discoverability check — or writes `output/<slug>.md` when it isn't. Relay
+   exactly what it reports back; don't claim a publish that didn't happen.
