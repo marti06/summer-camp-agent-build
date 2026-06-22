@@ -1,8 +1,8 @@
-# Slides — Build a team agent in Claude Code
+# Slides, Build a team agent in Claude Code
 
 The talk-through deck, **implemented from the Claude Design design** (`claude-design/`)
 into a single self-contained file: `index.html`. 22 slides, black + orange brand,
-1920×1080. **No CDN, no runtime, no network** — it opens and presents in any browser,
+1920×1080. **No CDN, no runtime, no network**, it opens and presents in any browser,
 fully offline.
 
 ## Present it
@@ -24,7 +24,7 @@ refresh without losing your place.
 
 ## Fill in the [bracketed] bits first
 
-A few slides have `[your … ]` placeholders — your name/bio (slide 2), the Stacklist
+A few slides have `[your … ]` placeholders, your name/bio (slide 2), the Stacklist
 one-liner + a public-stack URL (slide 3), your handle (close). Search `index.html`
 for `[` and replace them.
 
@@ -37,5 +37,5 @@ graphics **on**. Keep it on a USB stick as your no-tech-needed fallback.
 ## Re-skin
 
 Brand colors are inline on each slide (`#FF6A00` accent, `#111` ink, `#FAFAFA` bg).
-To recolor globally, find/replace those hex values — or edit in the Claude Design
+To recolor globally, find/replace those hex values, or edit in the Claude Design
 project (see `claude-design/README.md`) and re-implement.

@@ -1,11 +1,11 @@
-# Build a team agent in Claude Code — *Stack Builder*
+# Build a team agent in Claude Code, *Stack Builder*
 
-A 2.5-hour, hands-on workshop. You **build** a real agent **inside Claude Code** —
-not a script on your laptop — and **ship it to your whole team by committing it**.
+A 2.5-hour, hands-on workshop. You **build** a real agent **inside Claude Code**, 
+not a script on your laptop, and **ship it to your whole team by committing it**.
 By the end you type `/build-stack "<topic>"` and a panel of agents you wrote
 researches, vets, and publishes a curated [Stacklist](https://stacklist.com) stack.
 
-You don't read along — **you build it**. The point is the pattern you'll reuse forever:
+You don't read along, **you build it**. The point is the pattern you'll reuse forever:
 
 - An **agent** in Claude Code is a markdown file (`.claude/agents/*.md`) you author.
 - An **orchestration** is one agent fanning out to several + a judge.
@@ -17,13 +17,13 @@ You don't read along — **you build it**. The point is the pattern you'll reuse
 ## Prerequisites (have these before we start)
 
 - **Claude Code** installed and working (`claude --version`). You already use it.
-- **git** — you have it.
+- **git**, you have it.
 - **One key.** Copy the template and fill in your Anthropic key:
   ```bash
   cp .env.example .env          # add ANTHROPIC_API_KEY (provided at the summit)
   set -a && source .env && set +a
   ```
-  The agent's web search & fetch are **built into Claude Code — no extra key.**
+  The agent's web search & fetch are **built into Claude Code, no extra key.**
   Stacklist credentials are **optional** (only to publish for real; `phases/PHASE-4.md`).
   No Python, no framework.
 
@@ -35,20 +35,20 @@ Start from a clean slate and build each phase yourself. The finished state of ev
 phase is a git tag, so you can never get stuck.
 
 ```bash
-git checkout start     # nothing built yet — your starting point
+git checkout start     # nothing built yet, your starting point
 claude                 # open Claude Code here, then follow phases/PHASE-1.md
 ```
 
 | Phase | What **you build** | Catch-up |
 |---|---|---|
-| 1 | Your first subagent — `link-researcher` | `git checkout phase-1 -- .claude` |
-| 2 | The review panel — three perspectives (incl. one of your own) | `git checkout phase-2 -- .claude` |
-| 3 | The orchestrator + judge — `/build-stack` | `git checkout phase-3 -- .claude` |
+| 1 | Your first subagent, `link-researcher` | `git checkout phase-1 -- .claude` |
+| 2 | The review panel, three perspectives (incl. one of your own) | `git checkout phase-2 -- .claude` |
+| 3 | The orchestrator + judge, `/build-stack` | `git checkout phase-3 -- .claude` |
 | 4 | The publisher (+ optionally wire Stacklist) | `git checkout phase-4 -- .claude` |
-| 5 | The deploy — commit, teammate pulls, CI | `git checkout phase-5 -- .claude` |
+| 5 | The deploy, commit, teammate pulls, CI | `git checkout phase-5 -- .claude` |
 
 Each phase has a guide in `phases/PHASE-N.md`. Catch-up pulls just the finished
-`.claude/` of that phase into your repo — you keep your place and your guides.
+`.claude/` of that phase into your repo, you keep your place and your guides.
 **`main`** is the complete reference if you want to see the whole finished thing.
 
 **Make it yours:** from Phase 2 you pick your own panel lenses and topic, so you
@@ -62,7 +62,7 @@ leave with *your* agent, not a copy. Finished early? See `STRETCH.md`.
 > /build-stack "best resources for shipping AI agents in 2026"
 ```
 Your researcher gathers links, your three reviewers score them in parallel, your
-judge picks the final set, and your publisher produces a tagged, summarized stack —
+judge picks the final set, and your publisher produces a tagged, summarized stack, 
 in Stacklist if connected, otherwise as `output/<slug>.md`.
 
 See `examples.md` for good topics, `FACILITATOR.md` for the run-of-show, and
@@ -72,8 +72,8 @@ See `examples.md` for good topics, `FACILITATOR.md` for the run-of-show, and
 
 ## Where to go next
 
-- Building Effective Agents — https://www.anthropic.com/research/building-effective-agents
-- Writing tools for agents — https://www.anthropic.com/engineering/writing-tools-for-agents
-- Effective context engineering — https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents
-- Claude Agent SDK docs — https://code.claude.com/docs/en/agent-sdk/overview
-- Subagents — https://code.claude.com/docs/en/sub-agents
+- Building Effective Agents, https://www.anthropic.com/research/building-effective-agents
+- Writing tools for agents, https://www.anthropic.com/engineering/writing-tools-for-agents
+- Effective context engineering, https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents
+- Claude Agent SDK docs, https://code.claude.com/docs/en/agent-sdk/overview
+- Subagents, https://code.claude.com/docs/en/sub-agents

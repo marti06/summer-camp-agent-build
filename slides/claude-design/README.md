@@ -6,7 +6,7 @@ The deck was designed in **Claude Design** (claude.ai/design):
 - **File:** `Build a team agent.dc.html`
 - **URL:** https://claude.ai/design/p/93059661-ae52-407a-9db7-6bf915e055f1
 
-`../index.html` is the **implemented** version of that design — the same 22 slides,
+`../index.html` is the **implemented** version of that design, the same 22 slides,
 extracted into a self-contained deck that runs in any browser with no Claude Design
 runtime, no CDN, and no network. That's what you present from.
 

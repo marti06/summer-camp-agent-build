@@ -1,10 +1,10 @@
-# Stretch — if you finish early
+# Stretch, if you finish early
 
-Pick any. Each is the same pattern, one level up — and a good "now make it real
+Pick any. Each is the same pattern, one level up, and a good "now make it real
 for me" task.
 
 - **A 4th reviewer.** Add another lens to the panel (source diversity, depth,
-  practitioner-vs-academic). Re-run the same topic and watch the verdict shift —
+  practitioner-vs-academic). Re-run the same topic and watch the verdict shift, 
   proof that behaviour lives in the roles, not the plumbing.
 - **Judge as a subagent.** Move the judging out of `/build-stack` into its own
   `.claude/agents/judge.md`, and have the command delegate to it. Compare: cleaner
@@ -18,6 +18,6 @@ for me" task.
 - **Give a panelist a real tool.** Let a reviewer fetch and read a candidate in full
   before scoring, or add a tool it can call mid-review.
 - **Agent teams.** Let the panelists debate each other before the judge decides
-  (experimental in Claude Code — check the docs for the flag).
+  (experimental in Claude Code, check the docs for the flag).
 - **Tier + measure.** Try the judge on a stronger model for a hard topic; note the
   quality vs cost difference. Spend tokens where they matter.
