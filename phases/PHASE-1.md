@@ -1,48 +1,40 @@
-# Phase 1 — Your first subagent
+# Phase 1 — Build your first subagent
 
-**Goal:** create one real subagent and watch Claude Code hand work to it.
+**Build:** `.claude/agents/link-researcher.md` · ~15 min
 
-A subagent is just a markdown file: YAML frontmatter (who it is, what tools it may
-use, which model) + a system prompt (how it behaves). That's the whole format.
+A subagent is one markdown file: frontmatter (who it is, what it may touch, which
+model) + a system prompt (how it behaves). You'll write one from scratch — it's the
+whole format in miniature.
 
-## What we added
+## Build it
+Create `.claude/agents/link-researcher.md` with two parts.
 
-`.claude/agents/link-researcher.md`:
+**1. Frontmatter** (between `---` fences) — you decide each field:
+- `name:` → `link-researcher`
+- `description:` → **this is how the lead agent decides to delegate.** Write it like
+  a job posting: *when* to use it and *what it hands back*. Vague here and it never
+  gets called.
+- `tools:` → its blast radius. A researcher needs `WebSearch, WebFetch` — and
+  nothing else (no Write, no Bash). Least privilege by default.
+- `model:` → `sonnet`.
 
-```yaml
----
-name: link-researcher
-description: Finds strong candidate links for a topic... Use this first.
-tools: WebSearch, WebFetch     # this agent can ONLY search & fetch — nothing else
-model: sonnet
----
-You are a research specialist...
+**2. System prompt** (after the fences). Tell it to: take a TOPIC, run a few focused
+web searches, return **12–18** strong candidates (more than the final stack needs,
+so the panel has something to cut), prefer primary / recent / reputable sources,
+**never invent a URL**, and return ONLY a markdown list —
+`- [Title](url) — one-line reason`.
+
+> Fast path: ask Claude Code *"draft a link-researcher subagent that…"*, then tighten
+> the `description` and lock the `tools` down yourself. The judgment is in the edit.
+
+## Run it
 ```
-
-Two things to notice:
-- **`description`** is how the main agent decides to delegate. Write it like a job
-  posting — when should this agent be used, and what does it hand back?
-- **`tools`** is the agent's blast radius. The researcher can search and fetch; it
-  can't write files or run commands. Least privilege, by default.
-
-## Try it
-
-In Claude Code:
-
+> Use the link-researcher subagent to find candidates for "<a topic you know well>".
 ```
-> Use the link-researcher subagent to find candidates for
-  "learning Rust coming from TypeScript".
+✅ **Checkpoint:** it returns a clean candidate list — and your main chat stayed
+clean, because the subagent ran in its own context. That isolation is the point.
+
+## Stuck or behind?
+```bash
+git checkout phase-1 -- .claude
 ```
-
-You should see Claude spawn the subagent, watch it run its own searches in its own
-context window, and hand back a clean candidate list. Note that *your* main context
-stayed clean — that isolation is the point of a subagent.
-
-## Exercise
-
-Tighten the `description` so it's unambiguous, then ask a vague question and see if
-Claude delegates correctly. The description is a prompt — vague in, vague out.
-
-## Catch-up
-
-`git checkout phase-1`. Next: Phase 2 — give the researcher's output to a panel.

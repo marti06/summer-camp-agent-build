@@ -1,46 +1,43 @@
-# Phase 3 — The orchestrator + the judge
+# Phase 3 — Build the orchestrator + judge
 
-**Goal:** one command that runs the whole pipeline — research → parallel review →
-judge → a saved stack. This is the "Scout" move: fan out, then synthesize.
+**Build:** `.claude/commands/build-stack.md` · ~25 min — the centerpiece.
 
-## What we added
+A slash command is a plan the lead agent follows. You'll write the plan that turns
+a topic into a curated stack: research → panel (in parallel) → you judge.
 
-`.claude/commands/build-stack.md` → the `/build-stack` slash command. Its body is
-a plan the lead agent follows:
+## Build it
+Create `.claude/commands/build-stack.md`:
 
-1. Launch `link-researcher`.
-2. Launch the three reviewers **in parallel** (one step, three subagents).
-3. **Be the judge** — combine the scores, honour drops, kill duplicates, pick 8–12,
-   and surface any disagreement instead of hiding it.
-4. Propose name + summary + tags + the ranked list, and ask for an OK.
-5. Save to `output/<slug>.md`.
+- **Frontmatter:** a `description:` and `argument-hint: "<topic>"`. The topic arrives
+  in the body as `$ARGUMENTS`.
+- **Body** — write these as instructions to the lead agent:
+  1. Launch `link-researcher` on `$ARGUMENTS` → candidate list.
+  2. Launch the three reviewers **in parallel** (all in one step) with the topic +
+     the list.
+  3. **Judge** — this is *you*, the lead agent, not a subagent: sum the scores,
+     honour `DROP` votes, kill duplicates, pick the best **8–12**, and *state* where
+     the reviewers disagreed instead of hiding it.
+  4. Propose a **name + one-paragraph summary + 3–6 tags + the ranked list**, and ask
+     the user for an OK.
+  5. Save to `output/<slug>.md`.
 
-Two design choices worth calling out:
-- **The judge is the lead agent, not another subagent.** Subagents report back to
-  whoever spawned them; the lead already holds all three score sets, so it's the
-  natural place to synthesize. (You *could* make the judge its own subagent — try
-  it as a stretch.)
-- **Parallel fan-out** — launching the three reviewers in a single step runs them
-  concurrently. Three opinions cost about the latency of one.
+> Why the judge is the lead agent, not another subagent: it already holds all three
+> score sets, so it's the natural place to synthesize. (Making the judge its own
+> subagent is a good stretch — see `STRETCH.md`.)
 
-## Try it — the whole thing, one command
+## Make it yours
+Decide your judging rule and put it in step 3 — do you weight credibility over
+freshness? Cap one link per domain? Require at least one beginner on-ramp?
 
+## Run it
 ```
-> /build-stack "best resources for shipping AI agents in 2026"
+> /build-stack "<your topic>"
 ```
+✅ **The checkpoint that matters:** research → three reviewers at once → your judge's
+ranked pick → a saved stack. One line in; a reasoned artifact out. You never
+hard-coded which links win — the orchestration produced it.
 
-Watch: researcher → three reviewers at once → the judge's ranked pick with reasons
-→ a saved `output/best-resources-for-shipping-ai-agents-in-2026.md`.
-
-**This is the checkpoint that matters.** You typed one line; a panel of agents
-produced a curated, reasoned artifact. You never hard-coded which links win.
-
-## Exercise
-
-Run the same topic twice and compare the judge's notes on contested links. Then
-add a 4th reviewer (e.g. `reviewer-beginner-friendliness`) and see the verdict
-shift — the behaviour lives in the roles, not the plumbing.
-
-## Catch-up
-
-`git checkout phase-3`. Next: Phase 4 — publish to Stacklist for real.
+## Stuck or behind?
+```bash
+git checkout phase-3 -- .claude
+```

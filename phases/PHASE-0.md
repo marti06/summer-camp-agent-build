@@ -1,44 +1,40 @@
-# Phase 0 — Setup & orientation
+# Phase 0 — How this works + setup
 
-**Goal:** everyone in the same known-good state, and clear on what we're building.
+**You're on the `start` branch: nothing is built yet. You build it.**
 
-## Check you're ready
+This workshop is build-along. Each phase you create the real files; the finished
+version of every phase is saved as a git tag, so you can never get stranded.
 
+## Get set up
+- Claude Code (`claude --version`), git, and your Anthropic key.
+- `cp .env.example .env`, add `ANTHROPIC_API_KEY` (provided here), then
+  `set -a && source .env && set +a`.
+- Start from the clean slate: `git checkout start`, then open `claude`.
+
+## How you'll build
+- Each phase has a guide in `phases/PHASE-N.md`: what to build + how.
+- Write the files yourself — or ask Claude Code to draft them and then refine.
+  Either way, understand what you ship.
+- **Make it yours:** from Phase 2 on you pick your own angle (your panel lenses,
+  your topic), so you leave with *your* agent, not a copy of mine.
+
+## If you fall behind
+Grab the finished version of a phase without losing your place or your guides:
 ```bash
-claude --version     # Claude Code is installed
-git --version        # git is installed
+git checkout phase-2 -- .claude          # pulls the completed Phase 2 agents in
+# or just one file:
+git checkout phase-2 -- .claude/agents/reviewer-fit.md
 ```
+You stay on `start`; only `.claude/` is replaced. `main` is the complete reference
+if you want to see the whole finished thing.
 
-Your Anthropic key/login is provided at the summit. Open Claude Code in this repo:
+## The mental model
+- An **agent** = an LLM calling tools in a loop. Claude Code *is* that loop — you
+  configure it, you don't write it.
+- A **subagent** = a file in `.claude/agents/`. A **command** = a file in
+  `.claude/commands/`. **Sharing** = commit `.claude/`.
+- What we build: research → a panel vets the links → a judge picks → publish a
+  stack. Why this and not a calculator: it's open-ended, verifiable, and worth the
+  tokens. Arithmetic is a function call, not an agent.
 
-```bash
-claude
-```
-
-Ask it something trivial to confirm it's alive (`what files are in this repo?`).
-
-## The mental model (2 minutes)
-
-- An **agent** = an LLM calling tools in a loop until the task is done. Claude Code
-  *is* that loop — you don't write it, you configure it.
-- A **subagent** = a markdown file in `.claude/agents/` with its own role, tools,
-  and context window. The main agent can hand work to it.
-- A **slash command** = a markdown file in `.claude/commands/` that gives the main
-  agent a repeatable plan — including "spawn these subagents."
-- **Sharing** = commit `.claude/` to the repo. Everyone who clones it gets the agent.
-
-## What we'll build
-
-`/build-stack "<topic>"` → research → a panel vets the links → a judge picks →
-publish a curated Stacklist stack. See the diagram in `CLAUDE.md`.
-
-## Why this task (and not a calculator)
-
-A good agent task is **open-ended** (no fixed decision tree), **verifiable** (you
-can look at the stack and judge it), and **worth the tokens**. Curating the best
-links on a topic is all three. Arithmetic is none of them — that's a function call,
-not an agent.
-
-## Catch-up
-
-You're at the start. `git checkout phase-0` is here. Next: Phase 1.
+Next: Phase 1.

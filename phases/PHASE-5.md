@@ -1,52 +1,33 @@
-# Phase 5 — Deploy & share
+# Phase 5 — Ship it to your team
 
-**Goal:** the whole reason we built it in Claude Code instead of a script — ship it
-to the team with `git`, and run it unattended in CI. Nobody installs anything.
+**Build:** the deploy · ~15 min — the reason we did this in Claude Code, not a script.
 
-## Share it with the team (this is "deploy")
+Everything the agent needs is in `.claude/`. So shipping it is a commit.
 
-Everything the agent needs is already in `.claude/`. So:
-
+## Do it
 ```bash
 git add .claude CLAUDE.md
-git commit -m "Add the /build-stack agent"
-git push
+git commit -m "Add my /build-stack agent"
+git push            # to your own repo or fork
 ```
-
-A teammate:
-
+Now a teammate — **pair up with your neighbour** — pulls it:
 ```bash
-git pull
-claude
-> /build-stack "self-hosting your analytics"
+git pull && claude
+> /build-stack "<their topic>"      # zero setup: they have your whole agent
 ```
-
-They have the full agent — researcher, panel, judge, publisher — with zero setup.
-That's the payoff: **the repo *is* the distribution mechanism.** Update an agent,
-commit, and the whole team gets the new behaviour on their next pull.
-
-Scope recap:
-- `.claude/` in the **repo** = shared with everyone who clones it (what we used).
-- `~/.claude/` = your personal agents, not shared.
+✅ **Checkpoint:** someone else ran *your* agent with no setup. The repo is the
+distribution mechanism — update an agent, commit, and the team gets it on next pull.
 
 ## Run it headless (CI)
+`.github/workflows/weekly-stack.yml` runs the same command with `claude -p` on a
+schedule (e.g. a fresh "trending" stack every Monday). Add `ANTHROPIC_API_KEY` as a
+repo secret and trigger it from the Actions tab. Same agent — interactive, headless,
+scheduled. You wrote it once.
 
-`.github/workflows/weekly-stack.yml` runs the same command with `claude -p` (print
-mode) on a schedule — e.g. a fresh "trending" stack every Monday. Add
-`ANTHROPIC_API_KEY` as a repo secret; add your Stacklist MCP secrets too if you
-want CI to publish for real. Trigger it manually from the Actions tab to test.
+## Where next
+- `STRETCH.md` — extend the panel, add a judge subagent, build a code-review variant.
+- The Anthropic links in `README.md`.
+- The **Agent SDK** if you want to embed this in a product instead of running it in
+  Claude Code.
 
-Same agent, three ways to run it: interactive (`claude`), headless (`claude -p`),
-scheduled (CI). You wrote it once.
-
-## When to reach for the SDK instead
-
-`claude -p` is perfect for scripts and CI. If you need to *embed* the agent in a
-product — structured outputs, custom tool callbacks, hosted as a service — that's
-the **Claude Agent SDK** (Python/TypeScript). Same idea, programmatic control.
-
-## You're done
-
-`main` is the finished workshop. You built a real, reusable, team-shared agent in
-Claude Code, gave it your product's tools, orchestrated a panel + judge, and
-deployed it by committing it. `git checkout phase-5` is here.
+You built a real, reusable, team-shared agent — and shipped it. That's the rung.
