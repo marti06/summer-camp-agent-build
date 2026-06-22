@@ -11,8 +11,8 @@
 
   <style>
     :root{
-      --bg:#FAF8F3; --ink:#1A1A1A; --muted:#6E6A63;
-      --accent:#C15F3C; --accent-soft:#EBDBD2; --rule:#E3DCD1; --code-bg:#1E1E2A;
+      --bg:#FAFAFA; --ink:#111111; --muted:#6B6B6B;
+      --accent:#FF6A00; --accent-soft:#FFE2CC; --rule:#E6E6E6; --code-bg:#161616;
     }
     .reveal{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:30px;color:var(--ink);}
     .reveal .slides{text-align:left;}
@@ -28,7 +28,7 @@
     .reveal pre{width:100%;box-shadow:0 8px 30px rgba(0,0,0,0.16);border-radius:12px;font-size:0.62em;margin:0.6em 0;}
     .reveal pre code{background:var(--code-bg);border-radius:12px;padding:1.0em 1.2em;line-height:1.45;}
     .reveal code{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;}
-    .reveal :not(pre)>code{background:var(--accent-soft);color:#7A3A24;padding:0.08em 0.35em;border-radius:5px;font-size:0.9em;}
+    .reveal :not(pre)>code{background:var(--accent-soft);color:#B34A00;padding:0.08em 0.35em;border-radius:5px;font-size:0.9em;}
     section.divider{color:var(--bg);}
     .flow{display:flex;align-items:center;justify-content:center;gap:0.55em;flex-wrap:wrap;margin:0.5em 0;}
     .node{border:2px solid var(--accent);border-radius:12px;padding:0.45em 0.8em;background:#fff;font-weight:600;font-size:0.78em;}
@@ -48,6 +48,15 @@
     .step.now .yr{color:#fff;background:var(--accent);border-radius:6px;padding:0.1em 0.4em;}
     .fill{color:var(--muted);font-style:italic;}
     .small{font-size:0.8em;}
+    /* progress bar + running footer (design polish) */
+    .reveal .progress{color:var(--accent);height:5px;}
+    .reveal .footer{position:fixed;bottom:14px;left:26px;z-index:31;
+      font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+      font-size:13px;letter-spacing:0.06em;color:var(--muted);opacity:0.85;
+      transition:opacity .2s ease;}
+    .reveal .footer b{color:var(--accent);font-weight:700;}
+    .reveal:has(.slides section.present.divider) .footer,
+    .reveal:has(.slides section.present.title) .footer{opacity:0;}
   </style>
 </head>
 <body>
@@ -56,16 +65,16 @@
   <!-- ───────── PART 0 — INTRO ───────── -->
 
   <!-- 1 Title -->
-  <section data-background-color="#FAF8F3">
-    <p class="kicker">web summit · hands-on workshop · 2.5h</p>
+  <section class="title" data-background-color="#FAFAFA">
+    <p class="kicker">Web Summer Camp · Opatija · hands-on · 2.5h</p>
     <h1>Build a team agent<br>in Claude Code</h1>
     <h3>research → a panel of agents → a published, discoverable stack</h3>
-    <p class="muted" style="margin-top:1em;">[Your name] · Stacklist</p>
+    <p class="muted" style="margin-top:1.1em;">[Your name] · Stacklist · stacklist.app</p>
     <aside class="notes">Warm open. "In the next 2.5 hours you'll build a real agent — and ship it to your whole team by committing it. Not a toy. Something you'll actually keep."</aside>
   </section>
 
   <!-- 2 Who I am -->
-  <section data-background-color="#FAF8F3">
+  <section data-background-color="#FAFAFA">
     <h2 class="ruled">Who I am</h2>
     <ul>
       <li><span class="fill">[Your name] — what you do, in one line]</span></li>
@@ -77,7 +86,7 @@
   </section>
 
   <!-- 3 What is Stacklist -->
-  <section data-background-color="#FAF8F3">
+  <section data-background-color="#FAFAFA">
     <h2 class="ruled">What's Stacklist</h2>
     <ul>
       <li>Curated collections of links — <strong>stacks</strong> of <strong>cards</strong>.</li>
@@ -89,7 +98,7 @@
   </section>
 
   <!-- 4 The promise -->
-  <section data-background-color="#FAF8F3">
+  <section data-background-color="#FAFAFA">
     <h2 class="ruled">What you'll leave with</h2>
     <ul>
       <li>A working agent: <code>/build-stack "&lt;topic&gt;"</code></li>
@@ -102,7 +111,7 @@
   <!-- ───────── PART 1 — WHY AGENTS ───────── -->
 
   <!-- 5 What even is an agent -->
-  <section data-background-color="#FAF8F3">
+  <section data-background-color="#FAFAFA">
     <p class="kicker">first principles</p>
     <h2>What even is an agent?</h2>
     <blockquote class="big">An LLM <strong>calling tools in a loop</strong> until the task is done.</blockquote>
@@ -112,7 +121,7 @@
   </section>
 
   <!-- 6 Why they exist -->
-  <section data-background-color="#FAF8F3">
+  <section data-background-color="#FAFAFA">
     <h2 class="ruled">Why agents exist — what they buy you</h2>
     <ul>
       <li>The task is <strong>open-ended</strong> — no fixed script you could hardcode.</li>
@@ -124,7 +133,7 @@
   </section>
 
   <!-- 7 When NOT to -->
-  <section data-background-color="#FAF8F3">
+  <section data-background-color="#FAFAFA">
     <h2 class="ruled">…and when NOT to</h2>
     <ul>
       <li>If a single prompt does it — use a single prompt.</li>
@@ -138,14 +147,14 @@
   <!-- ───────── PART 2 — THE EVOLUTION ───────── -->
 
   <!-- 8 Divider -->
-  <section class="divider" data-background-color="#1A1A1A">
-    <p class="kicker" style="color:#E8A98F;">how we got here — fast</p>
-    <h1 style="color:#FAF8F3;">Two years,<br>four leaps</h1>
+  <section class="divider" data-background-color="#111111">
+    <p class="kicker" style="color:#FF9A57;">how we got here — fast</p>
+    <h1 style="color:#FAFAFA;">Two years,<br>four leaps</h1>
     <aside class="notes">The point of this section: the abstraction has climbed astonishingly fast, and the job is to climb with it.</aside>
   </section>
 
   <!-- 9 Timeline -->
-  <section data-background-color="#FAF8F3">
+  <section data-background-color="#FAFAFA">
     <h2 class="ruled">From a loop to a platform</h2>
     <div class="timeline">
       <div class="step"><span class="yr">~2023</span><span class="what"><b>One LLM call.</b> Prompt in, text out. No tools, no memory.</span></div>
@@ -158,7 +167,7 @@
   </section>
 
   <!-- 10 The meta-point -->
-  <section data-background-color="#FAF8F3">
+  <section data-background-color="#FAFAFA">
     <h2 class="ruled">The actual skill: evolve alongside it</h2>
     <ul>
       <li>Each leap <strong>retired hand-written plumbing</strong> from the leap before.</li>
@@ -172,14 +181,14 @@
   <!-- ───────── PART 3 — WHAT WE'LL BUILD ───────── -->
 
   <!-- 11 Divider -->
-  <section class="divider" data-background-color="#1A1A1A">
-    <p class="kicker" style="color:#E8A98F;">today</p>
-    <h1 style="color:#FAF8F3;">Build it.<br>Then ship it.</h1>
-    <p style="color:#C9C2B6;">A reusable agent in Claude Code — committed to a repo, run by your whole team.</p>
+  <section class="divider" data-background-color="#111111">
+    <p class="kicker" style="color:#FF9A57;">today</p>
+    <h1 style="color:#FAFAFA;">Build it.<br>Then ship it.</h1>
+    <p style="color:#C9C9C9;">A reusable agent in Claude Code — committed to a repo, run by your whole team.</p>
   </section>
 
   <!-- 12 Three ideas to hold -->
-  <section data-background-color="#FAF8F3">
+  <section data-background-color="#FAFAFA">
     <h2 class="ruled">Three ideas we'll prove with code</h2>
     <ul>
       <li>An <strong>agent</strong> is committable config — a markdown file, not a script.</li>
@@ -190,7 +199,7 @@
   </section>
 
   <!-- 13 Agenda / phases -->
-  <section data-background-color="#FAF8F3">
+  <section data-background-color="#FAFAFA">
     <h2 class="ruled">What we'll cover — in phases</h2>
     <div class="small">
       <div class="step"><span class="yr">P1</span><span class="what">Your first subagent — a researcher</span></div>
@@ -204,7 +213,7 @@
   </section>
 
   <!-- 14 Keys & setup -->
-  <section data-background-color="#FAF8F3">
+  <section data-background-color="#FAFAFA">
     <h2 class="ruled">Setup — one key</h2>
     <ul>
       <li><strong>Claude Code</strong> installed · <strong>git</strong> · the repo cloned</li>
@@ -220,7 +229,7 @@ claude                    # open Claude Code in the repo</code></pre>
   <!-- ───────── PART 4 — THE BUILD ───────── -->
 
   <!-- 15 Phase 1 -->
-  <section data-background-color="#FAF8F3">
+  <section data-background-color="#FAFAFA">
     <p class="kicker">phase 1</p>
     <h2>An agent is a file</h2>
     <pre><code data-trim data-noescape class="language-yaml">---
@@ -235,7 +244,7 @@ You are a research specialist. Given a TOPIC, find the strongest...</code></pre>
   </section>
 
   <!-- 16 Phase 2 -->
-  <section data-background-color="#FAF8F3">
+  <section data-background-color="#FAFAFA">
     <p class="kicker">phase 2</p>
     <h2>A panel beats one opinion</h2>
     <ul>
@@ -247,7 +256,7 @@ You are a research specialist. Given a TOPIC, find the strongest...</code></pre>
   </section>
 
   <!-- 17 Phase 3 -->
-  <section data-background-color="#FAF8F3">
+  <section data-background-color="#FAFAFA">
     <p class="kicker">phase 3 · the Scout move</p>
     <h2>Orchestrate, then judge</h2>
     <div class="flow">
@@ -262,7 +271,7 @@ You are a research specialist. Given a TOPIC, find the strongest...</code></pre>
   </section>
 
   <!-- 18 Phase 4 -->
-  <section data-background-color="#FAF8F3">
+  <section data-background-color="#FAFAFA">
     <p class="kicker">phase 4 · the product moment</p>
     <h2>Your product = the agent's tools</h2>
     <ul>
@@ -275,7 +284,7 @@ You are a research specialist. Given a TOPIC, find the strongest...</code></pre>
   </section>
 
   <!-- 19 Phase 5 -->
-  <section data-background-color="#FAF8F3">
+  <section data-background-color="#FAFAFA">
     <p class="kicker">phase 5 · the payoff</p>
     <h2>Deploy = git commit</h2>
     <pre><code data-trim data-noescape class="language-bash">git add .claude CLAUDE.md && git commit -m "Add /build-stack" && git push
@@ -289,7 +298,7 @@ git pull && claude
   <!-- ───────── PART 5 — CLOSE ───────── -->
 
   <!-- 20 What bites -->
-  <section data-background-color="#FAF8F3">
+  <section data-background-color="#FAFAFA">
     <h2 class="ruled">What bites in production</h2>
     <ul>
       <li><strong>Tool sprawl</strong> — if a human can't pick the tool, neither can the model</li>
@@ -301,7 +310,7 @@ git pull && claude
   </section>
 
   <!-- 21 Evolve -->
-  <section data-background-color="#FAF8F3">
+  <section data-background-color="#FAFAFA">
     <h2 class="ruled">Keep climbing</h2>
     <ul>
       <li>Give panelists real tools · loop-to-consensus · a code-review panel on your repo</li>
@@ -312,21 +321,23 @@ git pull && claude
   </section>
 
   <!-- 22 Close -->
-  <section class="divider" data-background-color="#1A1A1A">
-    <h1 style="color:#FAF8F3;">Thank you</h1>
-    <p style="color:#C9C2B6;">The repo is yours — <code>README.md</code> + <code>phases/</code> + the links.</p>
-    <p class="muted small" style="color:#9A9486;">[your handle] · stacklist.app · questions?</p>
+  <section class="divider" data-background-color="#111111">
+    <h1 style="color:#FAFAFA;">Thank you</h1>
+    <p style="color:#C9C9C9;">The repo is yours — <code>README.md</code> + <code>phases/</code> + the links.</p>
+    <p class="muted small" style="color:#8A8A8A;">[your handle] · stacklist.app · questions?</p>
     <aside class="notes">Take the room's questions. Point them at the phase docs to redo it at home, and at the Anthropic links in the README.</aside>
   </section>
 
-</div></div>
+</div>
+<div class="footer"><b>Web Summer Camp</b> · Opatija</div>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/highlight.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.js"></script>
 <script>
   Reveal.initialize({
-    hash:true, slideNumber:'c/t', transition:'fade', transitionSpeed:'fast',
+    hash:true, progress:true, slideNumber:'c/t', transition:'fade', transitionSpeed:'fast',
     width:1280, height:720, margin:0.08,
     plugins:[RevealHighlight, RevealNotes],
   });
