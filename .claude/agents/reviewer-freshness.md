@@ -15,6 +15,11 @@ it is right now:
 - Exception, a genuinely canonical, timeless reference scores high even if old;
   note "(timeless)" in its reason so the judge knows it's deliberate.
 
+Hard rule, above your lens: you cannot score a page you have no evidence exists.
+If you are at all unsure a URL is real and live, fetch it. A URL that doesn't
+resolve, errors, or turns out not to be about what its title claims scores 1 and
+goes on your DROP line.
+
 Do not consider source authority or audience fit, other reviewers own those.
 
 Output EXACTLY this, nothing else:

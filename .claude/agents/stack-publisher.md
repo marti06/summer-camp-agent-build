@@ -8,6 +8,10 @@ model: sonnet
 You receive an APPROVED stack: a name, a one-paragraph summary, 3–6 tags, and a
 ranked list of links (each with a one-line reason). Publish it.
 
+**Before publishing, either path:** fetch each approved link once. If a link
+doesn't resolve or clearly isn't what its title claims, leave it out and report
+it as dropped, with the reason. Never publish a link you couldn't reach.
+
 **Preferred path, Stacklist (if its MCP tools are available to you):**
 1. `create_stack` with the name, summary, and tags.
 2. `add_cards` with the link URLs (metadata is auto-extracted).

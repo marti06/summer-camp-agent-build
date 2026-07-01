@@ -18,6 +18,9 @@ Run this orchestration. You are the lead agent and, at the end, the judge.
    Each returns a `score | URL | reason` line per candidate plus a `DROP:` line.
 
 3. **Judge.** This is your job, not a subagent's. Combine the three score sets:
+   - **Verification beats votes:** if ANY reviewer reports a link as dead,
+     404, or not what its title claims, it is out immediately, high scores
+     from the other reviewers don't save it.
    - Sum each link's three scores. Honour `DROP` votes, a link dropped by two or
      more reviewers is out.
    - Remove near-duplicates (keep the stronger one).
